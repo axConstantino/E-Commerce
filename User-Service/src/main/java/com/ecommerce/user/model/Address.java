@@ -6,11 +6,15 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 
+@Data
+@Entity
+@Table(name = "address")
 public class Address implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -54,6 +58,8 @@ public class Address implements Serializable {
     @Pattern(regexp = "^[0-9]{5}(?:-[0-9]{4})?$")
     @Column(name = "zip_code", nullable = false)
     private String zipCode;
+
+    private boolean isDefault;
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
