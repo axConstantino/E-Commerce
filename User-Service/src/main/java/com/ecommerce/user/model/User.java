@@ -63,7 +63,7 @@ public class User implements Serializable {
     private String phone;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Address> address;
+    private Set<Address> addresses;
 
     @NotBlank
     @Enumerated(EnumType.STRING)
