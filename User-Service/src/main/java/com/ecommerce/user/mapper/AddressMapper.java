@@ -2,6 +2,7 @@ package com.ecommerce.user.mapper;
 
 import com.ecommerce.user.dto.AddressRequestDto;
 import com.ecommerce.user.dto.AddressResponseDto;
+import com.ecommerce.user.model.Address;
 import com.ecommerce.user.model.AddressType;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -32,12 +33,12 @@ public interface AddressMapper {
      * Actualiza una entidad Address con los datos de un AddressRequestDto.
      *
      * @param requestDto El DTO con los nuevos datos.
-     * @param newAddress La entidad Address a actualizar.
+     * @param existingAddress La entidad Address a actualizar.
      * @return La entidad Address actualizada.
      */
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "user", ignore = true)
-    Address updateFromDto(AddressRequestDto requestDto, @MappingTarget Address newAddress);
+    Address updateFromDto(AddressRequestDto requestDto, @MappingTarget Address existingAddress);
 
 }

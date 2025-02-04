@@ -36,5 +36,6 @@ public class AddressRequestDto implements Serializable {
     @NotBlank
     @Pattern(regexp = "^[0-9]{5}(?:-[0-9]{4})?$")
     private String zipCode;
+    
     private boolean isDefault;
 }
