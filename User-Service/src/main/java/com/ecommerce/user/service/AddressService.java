@@ -23,7 +23,7 @@ public class AddressService {
     public final AddressMapper mapper;
 
     @Transactional(readOnly = true)
-    public AddressResponseDto getUserAddressById(Long userId, Long addressId) {
+    public AddressResponseDto getSpecificUserAddress(Long userId, Long addressId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
 
@@ -36,11 +36,11 @@ public class AddressService {
     }
 
     @Transactional(readOnly = true)
-    public List<Address> getAddressesByUserId(Long userId) {
+    public List<AddressResponseDto> getAddressesByUserId(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
 
-        return addressRepository.findByUserId(userId);
+        return mapper.toDtoList(addressRepository.findByUserId(userId));
     }
 
     @Transactional
@@ -61,13 +61,18 @@ public class AddressService {
     }
 
     @Transactional
-    public AddressResponseDto update(Long addressId, AddressRequestDto addressRequestDto) {
-        Address address = addressRepository.findById(addressId)
+    public AddressResponseDto update(Long userId, Long addressId, AddressRequestDto addressRequestDto) {
+        Address existingAddress = addressRepository.findByUserIdAndId(userId, addressId)
                 .orElseThrow(() -> new AddressNotFoundException(addressId));
 
-        mapper.updateFromDto(addressRequestDto, address);
-        Address updatedAddress = addressRepository.save(address);
-        return mapper.toDto(updatedAddress);
+        Address updatedAddress = mapper.updateFromDto(existingAddress, addressRequestDto);
+
+        if (updatedAddress.isDefault()) {
+            addressRepository.unsetDefaultAddresses(userId, updatedAddress.getId());
+        }
+
+        Address savedAddress = addressRepository.save(updatedAddress);
+        return mapper.toDto(savedAddress);
     }
 
     public AddressResponseDto setDefaultAddress(Long userId, Long addressId) {
@@ -86,8 +91,8 @@ public class AddressService {
     }
 
     @Transactional
-    public void delete(Long addressId) {
-        Address address = addressRepository.findById(addressId)
+    public void delete(Long userId, Long addressId) {
+        Address address = addressRepository.findByUserIdAndId(userId, addressId)
                 .orElseThrow(() -> new AddressNotFoundException(addressId));
 
         addressRepository.delete(address);
