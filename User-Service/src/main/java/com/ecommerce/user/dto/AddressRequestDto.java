@@ -19,7 +19,7 @@ public class AddressRequestDto implements Serializable {
     private String address;
 
     @NotNull
-    private AddressType addressType;
+    private String addressType;
 
     @NotBlank
     @Size(min = 3, max = 100)
