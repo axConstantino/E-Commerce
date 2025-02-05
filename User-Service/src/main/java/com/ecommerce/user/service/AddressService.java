@@ -9,22 +9,18 @@ import com.ecommerce.user.model.Address;
 import com.ecommerce.user.model.User;
 import com.ecommerce.user.repository.AddressRepository;
 import com.ecommerce.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AddressService {
     public final AddressRepository addressRepository;
     public final UserRepository userRepository;
     public final AddressMapper mapper;
-
-    public AddressService(AddressRepository addressRepository, UserRepository userRepository, AddressMapper mapper) {
-        this.addressRepository = addressRepository;
-        this.userRepository = userRepository;
-        this.mapper = mapper;
-    }
 
     @Transactional(readOnly = true)
     public AddressResponseDto getUserAddressById(Long userId, Long addressId) {
@@ -48,9 +44,20 @@ public class AddressService {
     }
 
     @Transactional
-    public Address saveAddress(AddressRequestDto requestDto) {
+    public AddressResponseDto saveAddress(Long userId, AddressRequestDto requestDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+
         Address address = mapper.toEntity(requestDto);
-        return addressRepository.save(address);
+        address.setUser(user);
+
+        Address saveAddress= addressRepository.save(address);
+
+        if (address.isDefault()) {
+            addressRepository.unsetDefaultAddresses(userId, saveAddress.getId());
+        }
+
+        return mapper.toDto(saveAddress);
     }
 
     @Transactional

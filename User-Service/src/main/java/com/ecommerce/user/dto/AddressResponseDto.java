@@ -12,6 +12,8 @@ import java.time.Instant;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AddressResponseDto {
+    private Long id;
+    private Long userId;
     private String address;
     private AddressType addressType;
     private String city;

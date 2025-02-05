@@ -1,4 +1,4 @@
 package com.ecommerce.user.dto;
 
-public class ToUserResponse {
+public class UserDto {
 }

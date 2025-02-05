@@ -32,13 +32,12 @@ public interface AddressMapper {
     /**
      * Actualiza una entidad Address con los datos de un AddressRequestDto.
      *
-     * @param requestDto El DTO con los nuevos datos.
+     * @param requestDto      El DTO con los nuevos datos.
      * @param existingAddress La entidad Address a actualizar.
-     * @return La entidad Address actualizada.
      */
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "user", ignore = true)
-    Address updateFromDto(AddressRequestDto requestDto, @MappingTarget Address existingAddress);
+    void updateFromDto(AddressRequestDto requestDto, @MappingTarget Address existingAddress);
 
 }
