@@ -49,16 +49,19 @@ public class AddressController {
     }
 
     @PutMapping("/{addressId}")
+    @Operation(summary = "Update an existing address")
     public AddressResponseDto updateAddress(@PathVariable Long userId, @PathVariable Long addressId, @Valid @RequestBody AddressRequestDto requestDto) {
         return addressService.update(userId, addressId, requestDto);
     }
 
     @PutMapping("/{addressId}/set-default")
+    @Operation(summary = "Set address as default")
     public AddressResponseDto setDefault(@PathVariable Long userId, @PathVariable Long addressId) {
         return addressService.setDefaultAddress(userId, addressId);
     }
 
     @DeleteMapping("/{addressId}")
+    @Operation(summary = "Delete an address")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAddress(@PathVariable Long userId, @PathVariable Long addressId) {
         addressService.delete(userId, addressId);
