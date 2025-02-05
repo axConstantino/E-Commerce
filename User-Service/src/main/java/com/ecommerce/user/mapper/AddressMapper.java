@@ -8,6 +8,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", imports = AddressType.class)
 public interface AddressMapper {
 
@@ -20,6 +22,8 @@ public interface AddressMapper {
     @Mapping(target = "userId", source = "user.id")
     AddressResponseDto toDto(Address address);
 
+    List<AddressResponseDto> toDtoList(List<Address> userAddresses);
+
     /**
      * Convierte un AddressRequestDto a una entidad Address.
      *
@@ -28,6 +32,7 @@ public interface AddressMapper {
      */
     @Mapping(target = "addressType", source = "addressType", defaultExpression = "java(AddressType.HOME)")
     Address toEntity(AddressRequestDto requestDto);
+
 
     /**
      * Actualiza una entidad Address con los datos de un AddressRequestDto.
@@ -38,6 +43,5 @@ public interface AddressMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "user", ignore = true)
-    void updateFromDto(AddressRequestDto requestDto, @MappingTarget Address existingAddress);
-
+    Address updateFromDto(@MappingTarget Address existingAddress, AddressRequestDto requestDto);
 }
