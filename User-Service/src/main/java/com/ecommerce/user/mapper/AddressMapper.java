@@ -22,6 +22,12 @@ public interface AddressMapper {
     @Mapping(target = "userId", source = "user.id")
     AddressResponseDto toDto(Address address);
 
+    /**
+     * Convierte una lista de entidades Address a una lista de AddressResponseDto
+     *
+     * @param userAddresses La lista de entidades Address a convertir
+     * @return Una lista de AddressResponseDto's con los datos de la primera lista
+     */
     List<AddressResponseDto> toDtoList(List<Address> userAddresses);
 
     /**

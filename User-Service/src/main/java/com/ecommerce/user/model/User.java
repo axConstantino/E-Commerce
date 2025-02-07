@@ -10,22 +10,27 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
 
-@Data
+
 @Entity
+@Builder
+@Getter
+@Setter(AccessLevel.NONE)
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users")
 public class User implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NoHtml
@@ -45,7 +50,6 @@ public class User implements Serializable {
     @Size(max = 128)
     @Column(name = "email", nullable = false, unique = true)
     @Email
-    @Pattern(regexp = ".+@.+\\..+")
     private String email;
 
     @NoHtml
@@ -75,6 +79,11 @@ public class User implements Serializable {
 
     @Column(name = "updated_date", nullable = false)
     private Instant updatedDate;
+
+    public void addAddress(Address address) {
+        address.assignUser(this);
+        addresses.add(address);
+    }
 
     @PrePersist
     protected void onCreate() {

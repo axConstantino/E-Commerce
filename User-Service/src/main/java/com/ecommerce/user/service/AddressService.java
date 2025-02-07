@@ -27,9 +27,7 @@ public class AddressService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
 
-        Address address = user.getAddresses().stream()
-                .filter(a -> a.getId().equals(addressId))
-                .findFirst()
+        Address address = addressRepository.findByUserIdAndId(userId, addressId)
                 .orElseThrow(() -> new AddressNotFoundException(addressId));
 
         return mapper.toDto(address);
@@ -48,8 +46,7 @@ public class AddressService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
 
-        Address address = mapper.toEntity(requestDto);
-        address.setUser(user);
+        Address address = mapper.toEntity(requestDto).assignUser(user);
 
         Address saveAddress= addressRepository.save(address);
 
@@ -75,6 +72,7 @@ public class AddressService {
         return mapper.toDto(savedAddress);
     }
 
+    @Transactional
     public AddressResponseDto setDefaultAddress(Long userId, Long addressId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
@@ -84,8 +82,7 @@ public class AddressService {
 
         addressRepository.unsetDefaultAddresses(userId, addressId);
 
-        address.setDefault(true);
-        Address updatedAddress = addressRepository.save(address);
+        Address updatedAddress = addressRepository.save(address.markAsDefault());
 
         return mapper.toDto(address);
     }
