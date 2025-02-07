@@ -1,5 +1,6 @@
 package com.ecommerce.user.dto;
 
+import com.ecommerce.user.model.Role;
 import com.ecommerce.user.validation.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.constraints.*;
@@ -18,7 +19,6 @@ public class UserRequestDto {
     @NotBlank
     @Size(max = 128)
     @Email
-    @Pattern(regexp = ".+@.+\\..+")
     private String email;
 
     @NotBlank
@@ -31,5 +31,5 @@ public class UserRequestDto {
     private String password;
 
     @NotBlank
-    private String role;
+    private Role role;
 }

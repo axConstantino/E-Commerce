@@ -1,6 +1,7 @@
 package com.ecommerce.user.dto;
 
 import com.ecommerce.user.model.AddressType;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -19,7 +20,7 @@ public class AddressRequestDto implements Serializable {
     private String address;
 
     @NotNull
-    private String addressType;
+    private AddressType addressType;
 
     @NotBlank
     @Size(min = 3, max = 100)
@@ -36,6 +37,7 @@ public class AddressRequestDto implements Serializable {
     @NotBlank
     @Pattern(regexp = "^[0-9]{5}(?:-[0-9]{4})?$")
     private String zipCode;
-    
+
+    @JsonProperty("isDefault")
     private boolean isDefault;
 }

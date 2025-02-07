@@ -6,15 +6,19 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 
-@Data
 @Entity
-@Table(name = "address")
+@Builder(toBuilder = true)
+@Getter
+@Setter(AccessLevel.NONE)
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "addresses")
 public class Address implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -66,6 +70,15 @@ public class Address implements Serializable {
 
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
+
+
+    public Address assignUser(User user) {
+        this.toBuilder().user(user).build();
+    }
+
+    public Address markAsDefault() {
+        this.toBuilder().isDefault(true).build();
+    }
 
     @PrePersist
     public void prePersist() {
