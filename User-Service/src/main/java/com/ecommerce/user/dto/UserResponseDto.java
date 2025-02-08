@@ -1,5 +1,7 @@
 package com.ecommerce.user.dto;
 
+
+import com.ecommerce.user.model.Role;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
@@ -15,8 +17,7 @@ public class UserResponseDto {
     private String email;
     private String phone;
     private Set<AddressResponseDto> addresses;
-    private String role;
+    private Role role;
     private Instant createdDate;
     private Instant updatedDate;
-
 }

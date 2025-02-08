@@ -1,5 +1,6 @@
 package com.ecommerce.user.model;
 
+
 import com.ecommerce.user.validation.NoHtml;
 import com.ecommerce.user.validation.View;
 import com.fasterxml.jackson.annotation.JsonInclude;
