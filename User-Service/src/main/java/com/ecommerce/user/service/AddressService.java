@@ -2,8 +2,10 @@ package com.ecommerce.user.service;
 
 import com.ecommerce.user.dto.AddressRequestDto;
 import com.ecommerce.user.dto.AddressResponseDto;
-import com.ecommerce.user.exception.AddressNotFoundException;
-import com.ecommerce.user.exception.UserNotFoundException;
+import com.ecommerce.user.exception.address.AddressAlreadyExistsException;
+import com.ecommerce.user.exception.address.AddressLimitExceededException;
+import com.ecommerce.user.exception.address.AddressNotFoundException;
+import com.ecommerce.user.exception.user.UserNotFoundException;
 import com.ecommerce.user.mapper.AddressMapper;
 import com.ecommerce.user.model.Address;
 import com.ecommerce.user.model.User;
@@ -45,6 +47,15 @@ public class AddressService {
     public AddressResponseDto saveAddress(Long userId, AddressRequestDto requestDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
+
+        addressRepository.findByUserIdAndAddressType(userId, requestDto.getAddressType())
+                .ifPresent(existing -> {
+                    throw new AddressAlreadyExistsException(requestDto.getAddressType());
+                });
+
+        if (user.getAddresses() != null && user.getAddresses().size() >= 3) {
+            throw new AddressLimitExceededException(userId);
+        }
 
         Address address = mapper.toEntity(requestDto).assignUser(user);
 
