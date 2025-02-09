@@ -1,4 +1,4 @@
-package com.ecommerce.user.exception;
+package com.ecommerce.user.exception.address;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

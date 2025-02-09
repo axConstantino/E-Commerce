@@ -2,7 +2,7 @@ package com.ecommerce.user.service;
 
 import com.ecommerce.user.dto.UserRequestDto;
 import com.ecommerce.user.dto.UserResponseDto;
-import com.ecommerce.user.exception.UserNotFoundException;
+import com.ecommerce.user.exception.user.UserNotFoundException;
 import com.ecommerce.user.mapper.UserMapper;
 import com.ecommerce.user.model.User;
 import com.ecommerce.user.repository.UserRepository;
