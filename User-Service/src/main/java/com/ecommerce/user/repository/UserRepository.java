@@ -18,7 +18,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Cacheable(key = "#email")
     @Query("SELECT u FROM User u  WHERE u.email = LOWER(:email)")
-    Optional<User> finByEmailIgnoreCase(String email);
+    Optional<User> findByEmailIgnoreCase(String email);
 
     @Query("SELECT new com.example.dto.UserResponseDto(u.id, u.username, u.email, u.createdAt) FROM User u")
     Page<UserResponseDto> findAllProjectedToDto(Pageable pageable);

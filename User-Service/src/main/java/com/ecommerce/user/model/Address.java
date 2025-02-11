@@ -72,12 +72,12 @@ public class Address implements Serializable {
     private Instant updatedAt;
 
 
-    public Address assignUser(User user) {
-        this.toBuilder().user(user).build();
+    public void assignUser(User user) {
+        this.user = user;
     }
 
-    public Address markAsDefault() {
-        this.toBuilder().isDefault(true).build();
+    public void markAsDefault() {
+        this.isDefault = true;
     }
 
     @PrePersist

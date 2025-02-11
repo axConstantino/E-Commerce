@@ -57,7 +57,8 @@ public class AddressService {
             throw new AddressLimitExceededException(userId);
         }
 
-        Address address = mapper.toEntity(requestDto).assignUser(user);
+        Address address = mapper.toEntity(requestDto);
+        address.assignUser(user);
 
         Address saveAddress= addressRepository.save(address);
 
@@ -93,9 +94,10 @@ public class AddressService {
 
         addressRepository.unsetDefaultAddresses(userId, addressId);
 
-        Address updatedAddress = addressRepository.save(address.markAsDefault());
+        Address updatedAddress = addressRepository.save(address);
+        address.markAsDefault();
 
-        return mapper.toDto(address);
+        return mapper.toDto(updatedAddress);
     }
 
     @Transactional

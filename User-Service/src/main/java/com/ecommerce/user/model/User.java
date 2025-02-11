@@ -75,6 +75,10 @@ public class User implements Serializable {
     @Column(name = "role", nullable = false)
     private Role role;
 
+    private boolean isActive;
+
+    private boolean isInactive;
+
     @Column(name = "created_date", nullable = false)
     private Instant createdDate;
 

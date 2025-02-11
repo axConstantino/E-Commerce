@@ -37,7 +37,7 @@ public class UserService {
     public UserResponseDto createUser(UserRequestDto requestDto) {
         User user = mapper.toEntity(requestDto);
         User saveUser = repository.save(user);
-        return mapper.toDto(user);
+        return mapper.toDto(saveUser);
     }
 
     @Transactional
