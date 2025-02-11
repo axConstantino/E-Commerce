@@ -2,18 +2,10 @@ package com.ecommerce.user.controller;
 
 import com.ecommerce.user.dto.AddressRequestDto;
 import com.ecommerce.user.dto.AddressResponseDto;
-import com.ecommerce.user.dto.UserRequestDto;
-import com.ecommerce.user.dto.UserResponseDto;
-import com.ecommerce.user.mapper.AddressMapper;
-import com.ecommerce.user.mapper.UserMapper;
-import com.ecommerce.user.model.Address;
-import com.ecommerce.user.model.User;
 import com.ecommerce.user.service.AddressService;
-import com.ecommerce.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,20 +18,24 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 public class AddressController {
-    protected static final String URL = "/api/v1/users/{userId}/addresses";
+    protected static final String URL = "/api/v1/users/me/addresses";
     private final AddressService addressService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new address for a user.")
-    public AddressResponseDto createNewAddress(@PathVariable Long userId, @Valid @RequestBody AddressRequestDto requestDto) {
-        return addressService.saveAddress(userId, requestDto);
+    public ResponseEntity<AddressResponseDto> createNewAddress(@RequestHeader(UserController.userHeaderId) String userId, @Valid @RequestBody AddressRequestDto requestDto) {
+        Long id = Long.parseLong(userId);
+        AddressResponseDto address = addressService.saveAddress(id, requestDto);
+        return ResponseEntity.ok(address);
     }
 
     @GetMapping
     @Operation(summary = "Get a list of user addresses.")
-    public List<AddressResponseDto> getAllUserAddresses(@PathVariable Long userId) {
-        return addressService.getAddressesByUserId(userId);
+    public ResponseEntity<List<AddressResponseDto>> getAllUserAddresses(@RequestHeader(UserController.userHeaderId) String userId) {
+        Long id = Long.parseLong(userId);
+        List<AddressResponseDto> userAddresses = addressService.getAddressesByUserId(id);
+        return ResponseEntity.ok(userAddresses);
     }
 
     @GetMapping("/{addressId}")

@@ -10,7 +10,7 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", imports = Role.class)
+@Mapper(componentModel = "spring", imports = Role.class, uses = AddressMapper.class)
 public interface UserMapper{
     User toEntity(UserRequestDto requestDto);
 
