@@ -15,7 +15,7 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 
@@ -75,29 +75,38 @@ public class User implements Serializable {
     @Column(name = "role", nullable = false)
     private Role role;
 
+    @Column(name = "is_active", nullable = false)
     private boolean isActive;
 
-    private boolean isInactive;
+    @Column(name = "deactivation_date", nullable = false)
+    private LocalDateTime deactivationDate;
 
-    @Column(name = "created_date", nullable = false)
-    private Instant createdDate;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
-    @Column(name = "updated_date", nullable = false)
-    private Instant updatedDate;
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
 
     public void addAddress(Address address) {
         address.assignUser(this);
         addresses.add(address);
     }
 
+    public void deactivate() {
+        if (this.isActive){
+            this.isActive = false;
+            this.deactivationDate = LocalDateTime.now();
+        }
+    }
+
     @PrePersist
     protected void onCreate() {
-        createdDate = Instant.now();
-        updatedDate = Instant.now();
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedDate = Instant.now();
+        updatedAt = LocalDateTime.now();
     }
 }

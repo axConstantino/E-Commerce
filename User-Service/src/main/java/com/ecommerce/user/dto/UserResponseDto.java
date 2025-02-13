@@ -18,6 +18,7 @@ public class UserResponseDto {
     private String phone;
     private Set<AddressResponseDto> addresses;
     private Role role;
+    private boolean isActive;
     private Instant createdDate;
     private Instant updatedDate;
 }
