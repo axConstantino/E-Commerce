@@ -24,7 +24,7 @@ public class UserController {
     private final UserService service;
     private final AuthServiceClient authService;
 
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a user in the database")
     public UserJwtResponse create(@Valid @RequestBody UserRequestDto requestDto) {

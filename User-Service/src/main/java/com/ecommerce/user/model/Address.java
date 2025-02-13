@@ -10,7 +10,7 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Builder(toBuilder = true)
@@ -66,10 +66,10 @@ public class Address implements Serializable {
     private boolean isDefault;
 
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
+    private LocalDateTime updatedAt;
 
 
     public void assignUser(User user) {
@@ -82,13 +82,13 @@ public class Address implements Serializable {
 
     @PrePersist
     public void prePersist() {
-        createdAt = Instant.now();
-        updatedAt = Instant.now();
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
     public void preUpdate() {
-        updatedAt = Instant.now();
+        updatedAt = LocalDateTime.now();
     }
 
 }

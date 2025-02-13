@@ -10,7 +10,7 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", imports = AddressType.class)
+@Mapper(componentModel = "spring")
 public interface AddressMapper {
 
     /**
@@ -36,7 +36,6 @@ public interface AddressMapper {
      * @param requestDto El DTO con los datos de la dirección.
      * @return La entidad Address creada.
      */
-    @Mapping(target = "addressType", source = "addressType", defaultExpression = "java(AddressType.HOME)")
     Address toEntity(AddressRequestDto requestDto);
 
 
