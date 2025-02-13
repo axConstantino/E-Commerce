@@ -1,5 +1,6 @@
 package com.ecommerce.user.mapper;
 
+import com.ecommerce.user.dto.AdminRequestDto;
 import com.ecommerce.user.dto.UserRequestDto;
 import com.ecommerce.user.dto.UserResponseDto;
 import com.ecommerce.user.model.Role;
@@ -21,4 +22,6 @@ public interface UserMapper{
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createAt", ignore = true)
     User updateFromDto(@MappingTarget  User existingUser, UserRequestDto newUser);
+
+    User updateFromAdminDto(@MappingTarget User existingUser, AdminRequestDto adminRequest);
 }

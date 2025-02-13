@@ -3,6 +3,8 @@ package com.ecommerce.user.controller;
 import com.ecommerce.user.dto.UserJwtResponse;
 import com.ecommerce.user.dto.UserRequestDto;
 import com.ecommerce.user.dto.UserResponseDto;
+import com.ecommerce.user.feign.AuthServiceClient;
+import com.ecommerce.user.model.User;
 import com.ecommerce.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -20,6 +22,7 @@ public class UserController {
     protected static final String URL = "/api/v1/users";
     protected static final String userHeaderId = "X-User-Id";
     private final UserService service;
+    private final AuthServiceClient authService;
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
@@ -49,5 +52,13 @@ public class UserController {
         Long userId = Long.parseLong(id);
         UserResponseDto response = service.getUserById(userId);
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/me")
+    @Operation(summary = "Delete user")
+    public void deleteUser(@RequestHeader(userHeaderId) String userId) {
+        Long id = Long.parseLong(userId);
+        service.softDelete(id);
+        authService.revokeAllTokens(id);
     }
 }
