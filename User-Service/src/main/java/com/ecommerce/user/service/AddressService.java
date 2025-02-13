@@ -57,16 +57,20 @@ public class AddressService {
             throw new AddressLimitExceededException(userId);
         }
 
-        Address address = mapper.toEntity(requestDto);
-        address.assignUser(user);
-
-        Address saveAddress= addressRepository.save(address);
-
-        if (address.isDefault()) {
-            addressRepository.unsetDefaultAddresses(userId, saveAddress.getId());
+        int addressCount = addressRepository.countByUser(user);
+        if (addressCount >= 3){
+            throw new AddressLimitExceededException(userId);
         }
 
-        return mapper.toDto(saveAddress);
+        Address address = mapper.toEntity(requestDto);
+        address.assignUser(user);
+        Address savedAddress = addressRepository.save(address);
+
+        if (savedAddress.isDefault()){
+            addressRepository.unsetDefaultAddresses(userId, savedAddress.getId());
+        }
+
+        return mapper.toDto(savedAddress);
     }
 
     @Transactional
@@ -93,9 +97,9 @@ public class AddressService {
                 .orElseThrow(() -> new AddressNotFoundException(addressId));
 
         addressRepository.unsetDefaultAddresses(userId, addressId);
+        address.markAsDefault();
 
         Address updatedAddress = addressRepository.save(address);
-        address.markAsDefault();
 
         return mapper.toDto(updatedAddress);
     }

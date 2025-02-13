@@ -40,26 +40,30 @@ public class AddressController {
 
     @GetMapping("/{addressId}")
     @Operation(summary = "Get specific user address.")
-    public AddressResponseDto getSpecificUserAddress(@PathVariable Long userId, @PathVariable Long addressId) {
-        return addressService.getSpecificUserAddress(userId, addressId);
+    public AddressResponseDto getSpecificUserAddress(@RequestHeader(UserController.userHeaderId)String userId, @PathVariable Long addressId) {
+        Long id = Long.parseLong(userId);
+        return addressService.getSpecificUserAddress(id, addressId);
     }
 
-    @PutMapping("/{addressId}")
+    @PutMapping()
     @Operation(summary = "Update an existing address")
-    public AddressResponseDto updateAddress(@PathVariable Long userId, @PathVariable Long addressId, @Valid @RequestBody AddressRequestDto requestDto) {
-        return addressService.update(userId, addressId, requestDto);
+    public AddressResponseDto updateAddress(@RequestHeader(UserController.userHeaderId)String userId, @PathVariable Long addressId, @Valid @RequestBody AddressRequestDto requestDto) {
+        Long id = Long.parseLong(userId);
+        return addressService.update(id, addressId, requestDto);
     }
 
-    @PutMapping("/{addressId}/set-default")
+    @PutMapping("/set-default")
     @Operation(summary = "Set address as default")
-    public AddressResponseDto setDefault(@PathVariable Long userId, @PathVariable Long addressId) {
-        return addressService.setDefaultAddress(userId, addressId);
+    public AddressResponseDto setDefault(@RequestHeader(UserController.userHeaderId)String userId, @PathVariable Long addressId) {
+        Long id = Long.parseLong(userId);
+        return addressService.setDefaultAddress(id, addressId);
     }
 
-    @DeleteMapping("/{addressId}")
+    @DeleteMapping()
     @Operation(summary = "Delete an address")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAddress(@PathVariable Long userId, @PathVariable Long addressId) {
-        addressService.delete(userId, addressId);
+    public void deleteAddress(@RequestHeader(UserController.userHeaderId) String userId, @PathVariable Long addressId) {
+        Long id = Long.parseLong(userId);
+        addressService.delete(id, addressId);
     }
 }

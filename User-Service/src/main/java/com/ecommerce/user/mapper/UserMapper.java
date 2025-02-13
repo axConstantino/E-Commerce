@@ -11,8 +11,8 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", imports = Role.class, uses = AddressMapper.class)
-public interface UserMapper{
+@Mapper(componentModel = "spring", uses = AddressMapper.class)
+public interface UserMapper{                                                                                                        
     User toEntity(UserRequestDto requestDto);
 
     UserResponseDto toDto(User user);
@@ -20,7 +20,7 @@ public interface UserMapper{
     List<UserResponseDto> toDtoList(List<User> users);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createAt", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     User updateFromDto(@MappingTarget  User existingUser, UserRequestDto newUser);
 
     User updateFromAdminDto(@MappingTarget User existingUser, AdminRequestDto adminRequest);

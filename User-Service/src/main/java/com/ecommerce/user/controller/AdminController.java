@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(AdminController.URL)
 @RequiredArgsConstructor
 @Validated
-@SecurityRequirement(name = "barerAuth")
+@SecurityRequirement(name = "bearerAuth")
 public class AdminController {
     protected static final String URL = "/api/v1/admin/users";
     private final UserService service;
@@ -34,8 +34,8 @@ public class AdminController {
 
     @GetMapping("/{userId}")
     @Operation(summary = "Get user info")
-    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
-        UserResponseDto response = service.getUserById(id);
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long userId) {
+        UserResponseDto response = service.getUserById(userId);
         return ResponseEntity.ok(response);
     }
 
@@ -51,7 +51,7 @@ public class AdminController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{userId")
+    @DeleteMapping("/{userId}")
     public void deleteUser(@PathVariable Long userId) {
         service.softDelete(userId);
         authService.revokeAllTokens(userId);

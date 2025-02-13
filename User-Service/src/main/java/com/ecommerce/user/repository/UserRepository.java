@@ -1,6 +1,5 @@
 package com.ecommerce.user.repository;
 
-import aj.org.objectweb.asm.commons.Remapper;
 import com.ecommerce.user.dto.UserResponseDto;
 import com.ecommerce.user.model.User;
 import org.springframework.cache.annotation.CacheConfig;
@@ -22,7 +21,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     @Query("SELECT u FROM User u  WHERE u.email = LOWER(:email)")
     Optional<User> findByEmailIgnoreCase(String email);
 
-    @Query("SELECT new com.example.dto.UserResponseDto(u.id, u.username, u.email, u.createdAt) FROM User u")
+    @Query("SELECT new com.ecommerce.user.dto.UserResponseDto(u.id, u.userName, u.email, u.createdAt) FROM User u")
     Page<UserResponseDto> findAllProjectedToDto(Pageable pageable);
 
 }
