@@ -1,11 +1,11 @@
 package com.ecommerce.user.service;
 
-import com.ecommerce.user.dto.AdminRequestDto;
 import com.ecommerce.user.dto.SearchRequestDto;
 import com.ecommerce.user.dto.UserRequestDto;
 import com.ecommerce.user.dto.UserResponseDto;
 import com.ecommerce.user.exception.user.UserNotFoundException;
 import com.ecommerce.user.mapper.UserMapper;
+import com.ecommerce.user.model.Role;
 import com.ecommerce.user.model.User;
 import com.ecommerce.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +34,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Page<UserResponseDto> getAllUsers(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public Page<UserResponseDto> getAllUsers(Pageable pageable) {
         return repository.findAllProjectedToDto(pageable);
     }
 
@@ -83,13 +79,12 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDto updateUserByAdmin(Long userId, AdminRequestDto adminRequest) {
+    public void updateUserRole(Long userId, Role newRole) {
         User user = repository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
 
-        User updatedUser = mapper.updateFromAdminDto(user, adminRequest);
-        repository.save(updatedUser);
-        return mapper.toDto(updatedUser);
+        user.changeRole(newRole);
+        repository.save(user);
     }
 
     @Transactional
@@ -99,5 +94,18 @@ public class UserService {
 
         user.deactivate();
         repository.save(user);
+    }
+
+    @Transactional
+    public void hardDelete(Long userId) {
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+
+        repository.deleteById(userId);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<UserResponseDto> getInactiveUsersList(Pageable pageable) {
+        return repository.findByIsActiveFalse(pageable);
     }
 }
