@@ -1,9 +1,7 @@
 package com.ecommerce.user.mapper;
 
-import com.ecommerce.user.dto.AdminRequestDto;
 import com.ecommerce.user.dto.UserRequestDto;
 import com.ecommerce.user.dto.UserResponseDto;
-import com.ecommerce.user.model.Role;
 import com.ecommerce.user.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

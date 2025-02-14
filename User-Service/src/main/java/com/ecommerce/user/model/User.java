@@ -87,9 +87,8 @@ public class User implements Serializable {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    public void addAddress(Address address) {
-        address.assignUser(this);
-        addresses.add(address);
+    public void changeRole(Role newRole) {
+        if (newRole != null) this.role = newRole;
     }
 
     public void deactivate() {

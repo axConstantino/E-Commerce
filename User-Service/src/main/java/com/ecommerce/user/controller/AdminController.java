@@ -1,9 +1,9 @@
 package com.ecommerce.user.controller;
 
-import com.ecommerce.user.dto.AdminRequestDto;
 import com.ecommerce.user.dto.SearchRequestDto;
 import com.ecommerce.user.dto.UserResponseDto;
 import com.ecommerce.user.feign.AuthServiceClient;
+import com.ecommerce.user.model.Role;
 import com.ecommerce.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -17,19 +17,19 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(AdminController.URL)
+@RequestMapping(AdminController.ADMIN_URL)
 @RequiredArgsConstructor
 @Validated
 @SecurityRequirement(name = "bearerAuth")
 public class AdminController {
-    protected static final String URL = "/api/v1/admin/users";
+    protected static final String ADMIN_URL = "/api/v1/admin/users";
     private final UserService service;
     private final AuthServiceClient authService;
 
     @GetMapping
     @Operation(summary = "Get all users (Admin only)")
-    public Page<UserResponseDto> getAllUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        return service.getAllUsers(page, size);
+    public Page<UserResponseDto> getAllUsers(@PageableDefault(page = 0, size = 10)Pageable pageable) {
+        return service.getAllUsers(pageable);
     }
 
     @GetMapping("/{userId}")
@@ -46,9 +46,8 @@ public class AdminController {
 
     @PutMapping("/{userId}")
     @Operation(summary = "Allows the administrator to change user information such as role")
-    public ResponseEntity<UserResponseDto> updateUserInfo(@PathVariable Long userId, @Valid @RequestBody AdminRequestDto adminRequest) {
-        UserResponseDto response = service.updateUserByAdmin(userId, adminRequest);
-        return ResponseEntity.ok(response);
+    public void updateUserRole(@PathVariable Long userId, Role newRole) {
+        service.updateUserRole(userId, newRole);
     }
 
     @DeleteMapping("/{userId}")
