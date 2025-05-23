@@ -10,6 +10,6 @@ public interface UserProfileRepository {
     UserProfile findByKeycloakId(String keycloakId);
     boolean existsByKeycloakId(String keycloakId);
     void deleteByKeycloakId(String keycloakId);
-    void update(UserProfile userProfile);
+    void update(UUID existingProfileId, UserProfile userProfile);
     void delete(UUID id);
 }

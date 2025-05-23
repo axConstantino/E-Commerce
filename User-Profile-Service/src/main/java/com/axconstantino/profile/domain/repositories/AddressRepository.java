@@ -11,6 +11,6 @@ public interface AddressRepository {
     List<Address> findByUserProfileId(UUID userProfileId);
     Address findByIdAndUserProfileId(UUID id, UUID userProfileId);
     void deleteByIdAndUserProfileId(UUID id, UUID userProfileId);
-    void update(Address address);
+    void update(UUID existingAddress, Address newAddress);
     void delete(UUID id);
 }
