@@ -32,7 +32,7 @@ public class AddressRepositoryImpl implements AddressRepository {
     }
 
     @Override
-    public List<Address> findByUserProfileId(UUID userProfileId) {
+    public List<Address> findAllByUserProfileId(UUID userProfileId) {
         var addressEntities = addressJpa.findAllByUserProfileId(userProfileId);
         return mapper.toDomain(addressEntities);
     }
