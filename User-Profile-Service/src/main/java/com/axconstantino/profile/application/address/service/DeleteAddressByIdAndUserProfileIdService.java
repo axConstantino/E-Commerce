@@ -4,6 +4,7 @@ import com.axconstantino.profile.application.address.usecase.DeleteByAddressIdAn
 import com.axconstantino.profile.domain.repositories.AddressRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
 public class DeleteAddressByIdAndUserProfileIdService implements DeleteByAddressIdAndUserProfileId {
     private final AddressRepository addressRepository;
 
+    @Transactional
     @Override
     public void execute(UUID addressId, UUID userProfileId) {
         addressRepository.deleteByIdAndUserProfileId(addressId, userProfileId);
