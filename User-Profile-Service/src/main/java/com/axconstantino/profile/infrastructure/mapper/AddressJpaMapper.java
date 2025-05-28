@@ -13,7 +13,8 @@ import java.util.List;
 public interface AddressJpaMapper {
     AddressEntity toEntity(Address address);
     Address toDomain(AddressEntity addressEntity);
-    List<Address> toDomain(List<AddressEntity> addressEntities);
+    List<AddressEntity> toEntityList(List<Address> addresses);
+    List<Address> toDomainList(List<AddressEntity> addressEntities);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntity(@MappingTarget AddressEntity addressEntity, Address address);
