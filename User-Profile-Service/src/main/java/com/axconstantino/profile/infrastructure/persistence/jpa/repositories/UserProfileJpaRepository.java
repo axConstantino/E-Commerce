@@ -9,8 +9,5 @@ import java.util.UUID;
 
 public interface UserProfileJpaRepository extends JpaRepository<UserProfileEntity, UUID> {
     Optional<UserProfileEntity> findByKeycloakId(String keycloakId);
-
     void deleteByKeycloakId(String keycloakId);
-
-    boolean existsByKeycloakId(String keycloakId);
 }

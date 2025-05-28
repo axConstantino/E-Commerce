@@ -1,26 +1,24 @@
-package com.axconstantino.profile.domain.entities;
+package com.axconstantino.profile.infrastructure.rest.dto;
 
-import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Setter
 @Getter
-public class UserProfile {
+public class UserProfileResponse {
     private UUID id;
     private String keycloakId;
     private String fullName;
     private String nickname;
     private String phoneNumber;
     private String avatarUrl;
-    private List<Address> addresses;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private List<AddressResponse> addresses;
 }

@@ -7,9 +7,11 @@ import java.util.UUID;
 
 public interface AddressRepository {
     void save(Address address);
+    void saveAll(List<Address> addresses);
     Address findById(UUID id);
-    List<Address> findAllByUserProfileId(UUID userProfileId);
+    List<Address> findAllByUserKeycloakId(String userId);
     Address findByIdAndUserProfileId(UUID id, UUID userProfileId);
+    int  countByUserProfileId(UUID userProfile);
     void deleteByIdAndUserProfileId(UUID id, UUID userProfileId);
     void update(UUID existingAddress, Address newAddress);
     void delete(UUID id);

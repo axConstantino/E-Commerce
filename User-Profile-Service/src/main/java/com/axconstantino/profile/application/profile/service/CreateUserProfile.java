@@ -2,6 +2,7 @@ package com.axconstantino.profile.application.profile.service;
 
 import com.axconstantino.profile.application.profile.command.CreateProfileCommand;
 import com.axconstantino.profile.application.profile.usecase.CreateProfile;
+import com.axconstantino.profile.domain.entities.UserProfile;
 import com.axconstantino.profile.domain.repositories.UserProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ public class CreateUserProfile implements CreateProfile {
     @Transactional
     @Override
     public void execute(CreateProfileCommand command) {
-        repository.save(command.profile());
+        UserProfile profile = command.profile();
+        profile.setKeycloakId(command.keycloakId());
+        repository.save(profile);
     }
 }

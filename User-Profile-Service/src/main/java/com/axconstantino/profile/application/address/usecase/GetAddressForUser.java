@@ -4,6 +4,6 @@ import com.axconstantino.profile.domain.entities.Address;
 
 import java.util.UUID;
 
-public interface GetAddressByIdAndUserProfileId {
-    Address execute(UUID id, UUID userProfileId);
+public interface GetAddressForUser {
+    Address execute(UUID id, String userId);
 }
