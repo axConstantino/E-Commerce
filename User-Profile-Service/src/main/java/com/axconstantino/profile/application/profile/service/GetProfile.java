@@ -16,7 +16,7 @@ public class GetProfile implements GetProfileById {
 
     @Transactional
     @Override
-    public UserProfile execute(UUID profileId) {
-        return repository.findById(profileId);
+    public UserProfile execute(String keycloakId) {
+        return repository.findByKeycloakId(keycloakId);
     }
 }
