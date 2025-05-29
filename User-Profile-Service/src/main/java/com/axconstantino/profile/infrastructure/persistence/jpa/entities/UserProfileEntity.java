@@ -45,7 +45,7 @@ public class UserProfileEntity {
     @Column(name = "avatar_url")
     private String avatarUrl;
 
-    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userProfile", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AddressEntity> addresses;
 
     @Column(name = "created_at", nullable = false)
