@@ -37,11 +37,6 @@ public class UserProfileRepositoryImpl implements UserProfileRepository {
     }
 
     @Override
-    public boolean existsByKeycloakId(String keycloakId) {
-        return userProfileJpa.existsByKeycloakId(keycloakId);
-    }
-
-    @Override
     public void deleteByKeycloakId(String keycloakId) {
         userProfileJpa.deleteByKeycloakId(keycloakId);
     }

@@ -25,6 +25,11 @@ public class AddressRepositoryImpl implements AddressRepository {
     }
 
     @Override
+    public void saveAll(List<Address> addresses) {
+        addressJpa.saveAll(mapper.toEntityList(addresses));
+    }
+
+    @Override
     public Address findById(UUID id) {
         var addressEntity = addressJpa.findById(id)
                 .orElseThrow(() -> new NotFoundException("Not found address with id: " + id));
@@ -32,9 +37,9 @@ public class AddressRepositoryImpl implements AddressRepository {
     }
 
     @Override
-    public List<Address> findAllByUserProfileId(UUID userProfileId) {
-        var addressEntities = addressJpa.findAllByUserProfileId(userProfileId);
-        return mapper.toDomain(addressEntities);
+    public List<Address> findAllByUserKeycloakId(String keycloakId) {
+        var addressEntities = addressJpa.findAllByKeycloakId(keycloakId);
+        return mapper.toDomainList(addressEntities);
     }
 
     @Override
@@ -42,6 +47,11 @@ public class AddressRepositoryImpl implements AddressRepository {
         var addressEntity = addressJpa.findByIdAndUserProfileId(id, userProfileId)
                 .orElseThrow(() -> new NotFoundException("Not found address with id: " + id + " and user profile id: " + userProfileId));
         return mapper.toDomain(addressEntity);
+    }
+
+    @Override
+    public int countByUserProfileId(UUID userProfile) {
+        return 0;
     }
 
     @Override
